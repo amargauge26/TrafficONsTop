@@ -1,5 +1,7 @@
 # TrafficONsTop
 
+markdown
+Copy code
 # Traffic Light Detection and Classification 🚦
 
 This project utilizes pre-trained deep learning models for detecting and classifying traffic lights in images. The system combines object detection and image classification techniques to identify traffic lights and their states (Red, Green, Yellow). It can be used for autonomous driving systems or traffic monitoring applications.
@@ -47,3 +49,67 @@ This project performs two main tasks:
 2. Install dependencies using `pip`:
    ```bash
    pip install -r requirements.txt
+Download Pre-trained Models
+SSD MobileNet for object detection (can be loaded from TensorFlow model hub).
+InceptionV3 pre-trained on ImageNet (can be loaded directly from Keras).
+Usage 🚗
+1. Traffic Light Detection
+The TLClassifier class is responsible for loading the SSD MobileNet model and detecting traffic lights in input images. Use the following function to run detection:
+python
+Copy code
+tl_classifier.detect_traffic_lights(input_image)
+2. Traffic Light Classification
+After detection, the system crops the region containing the traffic light and passes it to the InceptionV3-based classifier for classification. You can classify the traffic light state using:
+python
+Copy code
+tl_classifier.classify_traffic_light(cropped_image)
+3. Example
+To run the full detection and classification on a test image:
+
+python
+Copy code
+from TLClassifier import TLClassifier
+
+tl_classifier = TLClassifier()
+
+# Step 1: Detect traffic light
+detected_traffic_lights = tl_classifier.detect_traffic_lights('test_image.jpg')
+
+# Step 2: Classify traffic light state
+for light in detected_traffic_lights:
+    cropped_image = light['cropped_image']
+    state = tl_classifier.classify_traffic_light(cropped_image)
+    print(f"Traffic light state: {state}")
+Model Training 🧠
+The classification model is fine-tuned using a dataset of cropped traffic light images with various states. The model training involves the following steps:
+
+Load and Preprocess Data: The dataset consists of images of traffic lights with different states (red, green, yellow). These images are cropped from the input image.
+Transfer Learning: Use InceptionV3 as a base model (pre-trained on ImageNet). The top layers are removed, and new dense layers are added for the classification task.
+Training: The model is trained for 10 epochs with data augmentation techniques like rotation, flipping, and zoom to improve generalization.
+Evaluation: The model is evaluated on a validation set, with metrics like accuracy, precision, recall, and F1-score. A confusion matrix is also generated.
+Training Command Example:
+python
+Copy code
+python train_model.py --epochs 10 --batch_size 32 --learning_rate 0.001
+Evaluation and Testing 🧪
+After training, the model is evaluated on a test set to calculate the following performance metrics:
+
+Accuracy: Overall classification accuracy.
+Precision: The proportion of true positives among the predicted positives.
+Recall: The proportion of true positives among the actual positives.
+F1-score: The harmonic mean of precision and recall.
+Confusion Matrix: Visualizes the model's performance across different classes.
+Example Evaluation:
+python
+Copy code
+from sklearn.metrics import confusion_matrix, classification_report
+import matplotlib.pyplot as plt
+
+y_true = [...]  # True labels
+y_pred = [...]  # Predicted labels
+
+print(classification_report(y_true, y_pred))
+cm = confusion_matrix(y_true, y_pred)
+plt.imshow(cm, cmap='Blues')
+plt.colorbar()
+plt.show()
