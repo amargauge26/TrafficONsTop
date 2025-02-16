@@ -1,0 +1,14 @@
+Based on the provided code and information, this project is focused on detecting and classifying traffic lights in images, not on detecting traffic itself. Here's a summary of what the project does:
+
+Traffic Light Detection: The project uses a pre-trained object detection model (likely SSD MobileNet, though not shown in the provided code) to detect traffic lights in images.
+
+Traffic Light Classification: After detecting traffic lights, the system uses a deep learning model based on the InceptionV3 architecture to classify the state of the traffic light.
+
+Classification Categories: The model can classify traffic lights into 7 different states: go, goForward, goLeft, stop, stopLeft, warning, and warningLeft.
+
+Image Processing: The system takes input images, resizes them to 224x224 pixels, and feeds them through the classification model.
+
+Output: For a given input image containing a traffic light, the system predicts which of the 7 states the traffic light is displaying.
+
+This project does not detect or analyze traffic flow. It's designed to recognize and classify the state of traffic lights in images, which could be a component of a larger traffic management or autonomous driving system, but it doesn't directly detect or manage traffic itself.
+
